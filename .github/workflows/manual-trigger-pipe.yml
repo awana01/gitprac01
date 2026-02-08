@@ -18,6 +18,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+    
+      - name: Print data
+        run: echo "Hello World !!!"
 
       - name: Run script
         run: echo "Deploying to ${{ github.event.inputs.environment }}"
