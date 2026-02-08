@@ -1,0 +1,38 @@
+name: Manual Trigger Email Notification
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose environment'
+        required: true
+        default: 'qa'
+        type: choice
+        options:
+          - qa
+          - prod
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+    
+      - name: Print data
+        run: echo "Hello World !!!"
+
+      - name: Run script
+        run: echo "Deploying to ${{ github.event.inputs.environment }}"
+
+      - name: Send email
+        uses: dawidd6/action-send-mail@v9
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USER }}
+          password: ${{ secrets.EMAIL_PASS }}
+          subject: "Pipeline Notification"
+          body: "The workflow has completed successfully!"
+          to: "automationsingh.1983@gmail.com"
+          from: "GitHub Actions <${{ secrets.EMAIL_USER }}>"
