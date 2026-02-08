@@ -1,0 +1,26 @@
+name: Demo Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Environment"
+        default: "qa"
+
+env:
+  APP_NAME: demo-app
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print built-in vars
+        run: printenv
+
+      - name: Print context
+        run: echo '${{ toJson(github) }}'
+
+      - name: Use user variables
+        run: echo "App=$APP_NAME Env=${{ github.event.inputs.env }}"
